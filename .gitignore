@@ -8,3 +8,7 @@ dist/
 *.egg-info/
 .personal_ai_os/
 *.sqlite3
+
+# Runtime workspace outputs
+logs/*
+!logs/.gitkeep

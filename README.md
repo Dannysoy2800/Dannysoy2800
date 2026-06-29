@@ -15,6 +15,69 @@ A modular Python **Personal AI Operating System** that can run as a local agent 
 - **Structured logging** for runtime visibility.
 - **GitHub-ready packaging, requirements, tests, and `.gitignore`**.
 
+
+## Danny AI workspace layout
+
+In addition to the Python package, this repository includes a top-level workspace scaffold for organizing role-specific agents, human-readable memory, projects, prompts, scripts, config, docs, logs, and tests. See [`docs/workspace-structure.md`](docs/workspace-structure.md) for the full directory map.
+
+You can launch the CLI through the workspace entry point:
+
+```bash
+python main.py --help
+```
+
+### Coding Agent usage
+
+Run the first local Coding Agent:
+
+```bash
+python main.py code
+```
+
+The Coding Agent can list project files, read files, create files, update files, explain code, and detect simple bugs:
+
+```bash
+python main.py code list
+python main.py code read README.md
+python main.py code create notes/example.py "print('hello')"
+python main.py code update notes/example.py "print('hello')" "print('hello, Danny')"
+python main.py code explain main.py
+python main.py code bugs main.py
+```
+
+Use `--workspace` to point the agent at a specific project directory while keeping file operations scoped to that workspace:
+
+```bash
+python main.py code --workspace ./projects/my-app list
+```
+
+
+### Research Agent usage
+
+Run the local Research Agent to collect results from GitHub repositories, documentation-oriented pages, and general web pages:
+
+```bash
+python main.py research search "python agent frameworks"
+```
+
+Summarize a research query as Markdown:
+
+```bash
+python main.py research summarize "python agent frameworks"
+```
+
+Save research notes under `memory/knowledge/`:
+
+```bash
+python main.py research save "python agent frameworks"
+```
+
+Use `--workspace` when you want saved notes to go to a specific workspace root:
+
+```bash
+python main.py research --workspace ./projects/my-app save "deployment options"
+```
+
 ## Project structure
 
 ```text
