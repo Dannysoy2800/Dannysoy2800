@@ -15,6 +15,17 @@ A modular Python **Personal AI Operating System** that can run as a local agent 
 - **Structured logging** for runtime visibility.
 - **GitHub-ready packaging, requirements, tests, and `.gitignore`**.
 
+
+## Danny AI workspace layout
+
+In addition to the Python package, this repository includes a top-level workspace scaffold for organizing role-specific agents, human-readable memory, projects, prompts, scripts, config, docs, logs, and tests. See [`docs/workspace-structure.md`](docs/workspace-structure.md) for the full directory map.
+
+You can launch the CLI through the workspace entry point:
+
+```bash
+python main.py --help
+```
+
 ## Project structure
 
 ```text
