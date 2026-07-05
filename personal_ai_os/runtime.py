@@ -17,7 +17,7 @@ results when you use web information, and ask before destructive file operations
 def build_agent(settings: Settings | None = None) -> OpenAIResponsesAgent:
     settings = settings or load_settings()
     memory = SQLiteMemory(settings.database_path)
-    tools = build_default_registry(settings.workspace_path, memory)
+    tools = build_default_registry(settings.workspace_path, memory, enable_writes=settings.enable_model_writes)
     return OpenAIResponsesAgent(
         model=settings.openai_model,
         api_key=settings.openai_api_key,
