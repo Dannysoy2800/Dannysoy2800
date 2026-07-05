@@ -30,6 +30,8 @@ class FileTools:
 
     def _safe_path(self, path: str) -> Path:
         target = (self.workspace / path).resolve()
-        if not str(target).startswith(str(self.workspace)):
-            raise ValueError("Path escapes configured workspace")
+        try:
+            target.relative_to(self.workspace)
+        except ValueError as exc:
+            raise ValueError("Path escapes configured workspace") from exc
         return target
