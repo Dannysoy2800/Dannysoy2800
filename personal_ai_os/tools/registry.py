@@ -53,14 +53,14 @@ class ToolRegistry:
         return self._tools[name].handler(**parsed)
 
 
-def build_default_registry(workspace: Path, memory: SQLiteMemory) -> ToolRegistry:
-    files = FileTools(workspace)
+def build_default_registry(workspace: Path, memory: SQLiteMemory, *, enable_writes: bool = False) -> ToolRegistry:
+    files = FileTools(workspace, writes_enabled=enable_writes)
     search = SearchTools()
     memory_tools = MemoryTools(memory)
     registry = ToolRegistry()
     registry.register(ToolDefinition("search_web", "Search the web using DuckDuckGo.", _object_schema({"query": "string", "max_results": "integer"}, ["query"]), search.search_web))
     registry.register(ToolDefinition("read_file", "Read a UTF-8 text file from the configured workspace.", _object_schema({"path": "string"}, ["path"]), files.read_file))
-    registry.register(ToolDefinition("write_file", "Write a UTF-8 text file inside the configured workspace.", _object_schema({"path": "string", "content": "string"}, ["path", "content"]), files.write_file))
+    registry.register(ToolDefinition("write_file", "Write a UTF-8 text file inside the configured workspace.", _object_schema({"path": "string", "content": "string", "approval_id": "string"}, ["path", "content", "approval_id"]), files.write_file))
     registry.register(ToolDefinition("list_files", "List files in a workspace directory.", _object_schema({"path": "string"}, []), files.list_files))
     registry.register(ToolDefinition("remember", "Save a durable memory by namespace and key.", _object_schema({"namespace": "string", "key": "string", "value": "string"}, ["namespace", "key", "value"]), memory_tools.remember))
     registry.register(ToolDefinition("recall", "Recall durable memories by namespace and optional query.", _object_schema({"namespace": "string", "query": "string", "limit": "integer"}, ["namespace"]), memory_tools.recall))

@@ -24,6 +24,7 @@ class Settings:
     workspace_path: Path
     max_tool_rounds: int
     search_provider: str
+    enable_model_writes: bool
 
 
 def load_settings(env_file: str | Path | None = None) -> Settings:
@@ -38,4 +39,12 @@ def load_settings(env_file: str | Path | None = None) -> Settings:
         workspace_path=workspace,
         max_tool_rounds=int(os.getenv("PAI_MAX_TOOL_ROUNDS", "6")),
         search_provider=os.getenv("PAI_SEARCH_PROVIDER", "duckduckgo"),
+        enable_model_writes=_env_bool("PAI_ENABLE_MODEL_WRITES", default=False),
     )
+
+
+def _env_bool(name: str, *, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
