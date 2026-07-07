@@ -30,6 +30,7 @@ class ToolDefinition:
             "name": self.name,
             "description": self.description,
             "parameters": self.parameters,
+            "strict": False,
         }
 
 
