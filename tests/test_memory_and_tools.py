@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 import pytest
+from openai.types.responses import FunctionToolParam
 
 from personal_ai_os.memory import SQLiteMemory
 from personal_ai_os.providers.openai_responses import OpenAIResponsesAgent
@@ -23,6 +24,22 @@ def test_file_tools_read_files_are_workspace_scoped(tmp_path):
     tools = build_default_registry(tmp_path, memory)
 
     assert tools.call("read_file", {"path": "note.txt"}) == "hello"
+
+
+def test_default_tool_schemas_match_openai_responses_function_tool_shape(tmp_path):
+    memory = SQLiteMemory(tmp_path / "memory.sqlite3")
+    tools = build_default_registry(tmp_path, memory)
+    sdk_fields = set(FunctionToolParam.__annotations__)
+
+    for schema in tools.schemas():
+        assert set(schema).issubset(sdk_fields)
+        assert schema["type"] == "function"
+        assert schema["name"]
+        assert isinstance(schema["description"], str)
+        assert schema["parameters"]["type"] == "object"
+        assert schema["parameters"]["additionalProperties"] is False
+        assert schema["strict"] is False
+        assert "function" not in schema
 
 
 def test_model_write_file_is_disabled_by_default(tmp_path):
