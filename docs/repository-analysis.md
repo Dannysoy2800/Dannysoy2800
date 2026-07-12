@@ -73,8 +73,7 @@ These are features the repository itself references or scaffolds but does not ye
 6. **No migrations or schema versioning for SQLite.** `SQLiteMemory` creates tables if missing, but there is no schema version table or migration path for future schema changes.
 7. **No packaging metadata for optional development tools.** The repository includes tests but has no development dependency group for `pytest`, linters, type checkers, or formatters.
 8. **No CI configuration is present.** There is no tracked workflow or script that runs tests, linting, or type checks automatically.
-9. **No `.env.example` is present despite workspace documentation listing it.** The docs mention `.env.example`, but the tracked files do not include one.
-10. **No explicit license file is present.** The repository does not state licensing terms in tracked files.
+9. **No explicit license file is present.** The repository does not state licensing terms in tracked files.
 
 ## 3. Bugs
 
@@ -84,7 +83,6 @@ These are features the repository itself references or scaffolds but does not ye
 4. **`ToolRegistry.call()` assumes JSON object arguments.** A malformed JSON string, JSON array, or non-mapping dict-like value can raise low-level errors. The runtime catches exceptions during model tool calls, but direct callers receive unnormalized exceptions.
 5. **`FileTools.list_files()` does not handle missing paths gracefully.** Listing a non-existent path raises a raw `FileNotFoundError` from `Path.iterdir()`.
 6. **`SQLiteMemory.recall()` does not validate `limit`.** Negative or non-sensible limits are passed to SQLite directly, which may produce surprising behavior.
-7. **The README repository link points to `danny-ai-os`, while this analyzed repository is `personal-ai-os`.** This can confuse users about the actual project location/name.
 
 ## 4. Security issues
 
@@ -110,8 +108,8 @@ These are features the repository itself references or scaffolds but does not ye
 ### P1 — Document and complete the supported user experience
 
 1. Expand `README.md` with install, configuration, CLI usage, security model, tool list, testing, and examples.
-2. Add `.env.example` for documented environment variables.
-3. Resolve the name/link mismatch between `README.md`, `pyproject.toml`, and repository naming.
+2. Keep `.env.example` aligned with documented environment variables.
+3. Keep README naming aligned with `pyproject.toml` and repository purpose.
 4. Add CI to run the test suite.
 5. Add development dependencies or a documented test environment setup.
 
