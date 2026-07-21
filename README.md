@@ -1,47 +1,34 @@
-# Hi, I'm Danny 👋
+# OmniRouter AI
 
-I'm building **Personal AI OS**: a modular, local-first AI workspace for agents, prompt engineering, workflow automation, memory, research, coding, writing, and review.
+OmniRouter AI is a production-ready FastAPI starter for routing chat requests across multiple AI providers. It starts with Gemini, Groq, and OpenRouter support and includes automatic fallback when a provider is unavailable, unconfigured, or returns an upstream error.
 
-## Account focus
+## Features
 
-- 🤖 **AI agents:** manager, research, coding, writing, and review workflows.
-- 🧠 **Memory systems:** SQLite-backed conversations plus durable key/value memory.
-- ⚙️ **Automation:** CLI-first workflows that can be extended with tools and scripts.
-- 🔐 **Safety:** workspace-scoped file tools and disabled-by-default model writes.
-- 🧪 **Quality:** tests for CLI behavior, configuration, memory, tools, and runtime flows.
+- FastAPI application skeleton with health and chat endpoints.
+- Provider framework for Gemini, Groq, and OpenRouter.
+- Automatic fallback based on configurable provider order.
+- Environment-based configuration with no secrets committed to source control.
+- Docker, Docker Compose, and Railway deployment files.
+- Tests for API health and fallback behavior.
 
-## Featured project: Personal AI OS
-
-This repository is a Python package named `personal-ai-os` with an installable CLI:
-
-```bash
-personal-ai-os --help
-```
-
-It supports two operating modes:
-
-1. **Local deterministic agents** for structured planning and review without API calls.
-2. **OpenAI-powered conversations** with persisted memory and registered tools when an API key is configured.
-
-## Repository layout
+## Project structure
 
 ```text
 .
-├── personal_ai_os/          # Python package and runtime implementation
-│   ├── agents/              # Local manager/research/coding/writing/review agents
-│   ├── core/                # Shared formatting helpers
-│   ├── providers/           # OpenAI Responses API provider
-│   └── tools/               # File, search, memory, and registry tools
-├── agents/                  # Workspace folders for future agent assets
-├── memory/                  # Human-readable memory categories
-├── projects/                # Project-specific working files and outputs
-├── prompts/                 # Reusable prompt assets
-├── config/                  # Non-secret configuration templates
-├── docs/                    # Architecture and workspace documentation
-├── tests/                   # Automated tests
-├── main.py                  # Script entry point
-├── pyproject.toml           # Package metadata
-└── requirements.txt         # Runtime dependencies
+├── omnirouter_ai/
+│   ├── app.py                  # FastAPI app factory and HTTP routes
+│   ├── config.py               # Environment-driven settings
+│   ├── router.py               # Provider selection and fallback logic
+│   ├── schemas.py              # Pydantic request/response schemas
+│   └── providers/              # Gemini, Groq, and OpenRouter adapters
+├── tests/                      # Automated tests
+├── .env.example                # Safe configuration template
+├── Dockerfile                  # Container image definition
+├── docker-compose.yml          # Local container orchestration
+├── railway.json                # Railway deployment configuration
+├── main.py                     # Local development runner
+├── pyproject.toml              # Package metadata
+└── requirements.txt            # Runtime and test dependencies
 ```
 
 ## Quick start
@@ -60,91 +47,86 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### 3. Configure environment variables
-
-Copy the example file and add your own values. Keep real secrets out of Git.
+### 3. Configure providers
 
 ```bash
 cp .env.example .env
 ```
 
-Common variables:
+Add API keys for the providers you want to enable. At least one provider key is required for `/v1/chat` to return model output.
 
 | Variable | Purpose | Default |
 | --- | --- | --- |
-| `OPENAI_API_KEY` | Enables OpenAI-powered `ask` and `chat` commands. | Not set |
-| `OPENAI_MODEL` | Model used by the OpenAI runtime. | `gpt-4.1-mini` |
-| `PAI_DB_PATH` | SQLite memory database path. | `.personal_ai_os/memory.sqlite3` |
-| `PAI_WORKSPACE` | Root directory exposed to workspace-scoped file tools. | `.` |
-| `PAI_LOG_LEVEL` | Runtime log level. | `INFO` |
-| `PAI_MAX_TOOL_ROUNDS` | Maximum follow-up tool rounds. | `6` |
-| `PAI_SEARCH_PROVIDER` | Search provider setting. | `duckduckgo` |
-| `PAI_ENABLE_MODEL_WRITES` | Allows model-triggered file writes when explicitly approved. | `false` |
+| `OMNI_PROVIDER_ORDER` | Fallback order used by the router. | `["gemini","groq","openrouter"]` |
+| `OMNI_GEMINI_API_KEY` | Enables Gemini routing. | Not set |
+| `OMNI_GEMINI_MODEL` | Gemini model name. | `gemini-1.5-flash` |
+| `OMNI_GROQ_API_KEY` | Enables Groq routing. | Not set |
+| `OMNI_GROQ_MODEL` | Groq model name. | `llama-3.1-8b-instant` |
+| `OMNI_OPENROUTER_API_KEY` | Enables OpenRouter routing. | Not set |
+| `OMNI_OPENROUTER_MODEL` | OpenRouter model identifier. | `openai/gpt-4o-mini` |
+| `OMNI_REQUEST_TIMEOUT_SECONDS` | Upstream HTTP timeout. | `30` |
 
-## CLI examples
-
-Run the manager-led local workflow without an API call:
+### 4. Run locally
 
 ```bash
-personal-ai-os run "Plan my next AI automation project"
+uvicorn omnirouter_ai.app:app --reload
 ```
 
-Run a single local specialist:
+Or:
 
 ```bash
-personal-ai-os research "Find risks in my launch plan"
-personal-ai-os code "Design the package structure"
-personal-ai-os write "Draft a project update"
-personal-ai-os review "Review this implementation plan"
+python main.py
 ```
 
-Ask the OpenAI-powered agent once:
+Open the interactive API docs at <http://localhost:8000/docs>.
+
+## API usage
+
+### Health check
 
 ```bash
-personal-ai-os --env-file .env ask "Summarize my project priorities"
+curl http://localhost:8000/health
 ```
 
-Start an interactive chat:
+### Routed chat request
 
 ```bash
-personal-ai-os --env-file .env chat --new
+curl -X POST http://localhost:8000/v1/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "system", "content": "You are a concise assistant."},
+      {"role": "user", "content": "Write a one-line launch tagline."}
+    ]
+  }'
 ```
 
-You can also run the workspace script directly:
+To force a provider for one request, include `"provider": "groq"`, `"provider": "gemini"`, or `"provider": "openrouter"` in the JSON body.
+
+## Deployment
+
+### Docker Compose
 
 ```bash
-python main.py run "Organize my AI workspace"
+docker compose up --build
 ```
 
-## Safety model
+### Railway
 
-- File tools are scoped to `PAI_WORKSPACE` and reject path traversal outside that root.
-- Model-triggered writes are disabled unless `PAI_ENABLE_MODEL_WRITES=true`.
-- Write approvals are exact-match and one-time for the requested path and content.
-- Do not store real API keys, private keys, credentials, or sensitive personal data in tracked files.
-- Review `.env.example` for configuration names, but keep actual values in `.env` or your shell environment.
+1. Create a Railway service from this repository.
+2. Add the provider environment variables from `.env.example`.
+3. Deploy with the included `railway.json` configuration.
 
 ## Development
 
-Run tests with:
+Run tests:
 
 ```bash
 python -m pytest
 ```
 
-Useful documentation:
+## Security notes
 
-- [`docs/workspace-structure.md`](docs/workspace-structure.md) explains the top-level workspace organization.
-- [`docs/repository-analysis.md`](docs/repository-analysis.md) summarizes current architecture, gaps, risks, and roadmap items.
-
-## Roadmap
-
-- Expand local agents from deterministic scaffolds into richer analysis workflows.
-- Add a clearer human approval UX for model-generated file changes.
-- Add CI, linting, formatting, and type-checking configuration.
-- Introduce memory management commands such as list, delete, export, and import.
-- Add stronger safeguards for sensitive files and large tool outputs.
-
-## Profile note
-
-This README is organized to make the account/repository easier to understand: who Danny is, what the project does, how to run it, where files live, and what comes next.
+- Keep real API keys in `.env`, Railway variables, or another secret manager.
+- Do not commit credentials, private keys, or provider secrets.
+- Configure only providers you intend to use.
