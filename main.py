@@ -1,11 +1,7 @@
-"""Top-level entry point for Danny's AI workspace.
+"""Run the OmniRouter AI FastAPI application locally."""
 
-This wrapper keeps the repository layout friendly for workspace-oriented usage while
-reusing the packaged Personal AI OS command-line interface.
-"""
-
-from personal_ai_os.cli import main
+import uvicorn
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    uvicorn.run("omnirouter_ai.app:app", host="0.0.0.0", port=8000, reload=True)
