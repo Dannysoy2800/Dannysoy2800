@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import importlib
+import importlib.util
 import logging
 
 logger = logging.getLogger(__name__)
@@ -15,15 +17,14 @@ class DuckDuckGoSearchTool:
         if not query.strip():
             raise ValueError("Search query cannot be empty")
         max_results = max(1, min(max_results, 10))
-        try:
-            from duckduckgo_search import DDGS
-        except ModuleNotFoundError as exc:
+        if importlib.util.find_spec("duckduckgo_search") is None:
             raise RuntimeError(
                 "Install dependencies with `pip install -r requirements.txt` to use DuckDuckGo search."
-            ) from exc
+            )
 
+        duckduckgo_module = importlib.import_module("duckduckgo_search")
         logger.info("Searching DuckDuckGo for query=%r max_results=%s", query, max_results)
-        with DDGS() as ddgs:
+        with duckduckgo_module.DDGS() as ddgs:
             results = list(ddgs.text(query, max_results=max_results))
         if not results:
             return "No results found."

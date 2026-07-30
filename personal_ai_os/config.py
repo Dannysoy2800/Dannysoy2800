@@ -2,15 +2,11 @@
 
 from __future__ import annotations
 
+import importlib
+import importlib.util
 import os
 from dataclasses import dataclass
 from pathlib import Path
-
-try:
-    from dotenv import load_dotenv
-except ModuleNotFoundError:  # pragma: no cover - used before optional dependencies are installed
-    def load_dotenv(dotenv_path=None):
-        return False
 
 
 @dataclass(frozen=True)
@@ -32,7 +28,7 @@ class Settings:
 
 def load_settings(env_file: str | Path | None = None) -> Settings:
     """Load settings from .env and process environment variables."""
-    load_dotenv(dotenv_path=env_file)
+    _load_dotenv(env_file)
     return Settings(
         openai_api_key=os.getenv("OPENAI_API_KEY"),
         openai_model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
@@ -40,3 +36,21 @@ def load_settings(env_file: str | Path | None = None) -> Settings:
         log_level=os.getenv("PAI_LOG_LEVEL", "INFO"),
         max_tool_rounds=int(os.getenv("PAI_MAX_TOOL_ROUNDS", "6")),
     )
+
+
+def _load_dotenv(env_file: str | Path | None) -> None:
+    """Load .env values with python-dotenv when available, otherwise use a small fallback."""
+    if importlib.util.find_spec("dotenv") is not None:
+        dotenv_module = importlib.import_module("dotenv")
+        dotenv_module.load_dotenv(dotenv_path=env_file)
+        return
+
+    path = Path(env_file) if env_file else Path(".env")
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))

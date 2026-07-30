@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import importlib
+import importlib.util
 import logging
 from typing import Any
 
@@ -31,11 +33,10 @@ class OpenAIResponsesAgent:
         if client is not None:
             self.client = client
         else:
-            try:
-                from openai import OpenAI
-            except ModuleNotFoundError as exc:
-                raise RuntimeError("Install dependencies with `pip install -r requirements.txt` to use OpenAI mode.") from exc
-            self.client = OpenAI(api_key=api_key)
+            if importlib.util.find_spec("openai") is None:
+                raise RuntimeError("Install dependencies with `pip install -r requirements.txt` to use OpenAI mode.")
+            openai_module = importlib.import_module("openai")
+            self.client = openai_module.OpenAI(api_key=api_key)
 
     def respond(self, conversation_id: str, user_message: str, system_prompt: str) -> str:
         """Generate a response, persist history, and execute requested tools."""
