@@ -1,0 +1,17 @@
+services:
+  personal-ai-os:
+    build: .
+    image: personal-ai-os:local
+    env_file:
+      - .env
+    environment:
+      PAI_WORKSPACE: /workspace
+      PAI_DB_PATH: /data/memory.sqlite3
+    volumes:
+      - personal_ai_os_data:/data
+      - ./workspace:/workspace
+    stdin_open: true
+    tty: true
+
+volumes:
+  personal_ai_os_data:

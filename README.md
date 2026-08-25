@@ -78,6 +78,20 @@ I'm passionate about building **AI-powered automation systems** and creating int
 - 🔒 Security-first approach in all projects (2FA enabled!)
 - 🌱 Continuous learner in the rapidly evolving AI space
 
+
+## 🏠 Self-host Personal AI OS
+
+Run this workspace locally with Docker Compose:
+
+```bash
+cp .env.example .env
+# Add OPENAI_API_KEY to .env
+docker compose build
+docker compose run --rm personal-ai-os chat --new
+```
+
+See [Self-hosting Personal AI OS](docs/self-hosting.md) for persistence, workspace mounts, and configuration details.
+
 ## 📬 Let's Connect
 
 - 💻 **Portfolio**: [GitHub Profile](https://github.com/Dannysoy2800)
