@@ -26,6 +26,11 @@ I'm passionate about building **AI-powered automation systems** and creating int
 
 </div>
 
+
+## 🌐 Personal Website
+
+This repository now includes a static portfolio website that can be published with GitHub Pages. Open `index.html` locally or follow [the website deployment guide](docs/website.md) to publish it.
+
 ## 🚀 Featured Projects
 
 ### 🤖 AI & Automation
