@@ -31,6 +31,7 @@ def test_default_registry_exposes_duckduckgo_search_only():
 
     assert [schema["name"] for schema in schemas] == ["search_web"]
     assert schemas[0]["parameters"]["required"] == ["query"]
+    assert schemas[0]["strict"] is False
 
 
 def test_openai_responses_agent_executes_search_tool_call(tmp_path):

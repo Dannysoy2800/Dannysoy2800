@@ -21,6 +21,7 @@ class ToolDefinition:
     description: str
     parameters: dict[str, Any]
     handler: Callable[..., str]
+    strict: bool = False
 
     def openai_schema(self) -> dict[str, Any]:
         """Return the function schema expected by the Responses API."""
@@ -29,6 +30,7 @@ class ToolDefinition:
             "name": self.name,
             "description": self.description,
             "parameters": self.parameters,
+            "strict": self.strict,
         }
 
 
