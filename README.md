@@ -1,95 +1,58 @@
-# Hi there! 👋 I'm Danny
+# नमस्ते, मैं Danny Soy 👋
 
-> AI/ML Developer | Automation Enthusiast | Building the Future of Intelligent Systems
+> **AI/ML Developer | Intelligent Agents | Automation | Dashboards**
 
-[![Profile Views](https://komarev.com/ghpvc/?username=Dannysoy2800&color=brightgreen)](https://github.com/Dannysoy2800)
-[![GitHub followers](https://img.shields.io/github/followers/Dannysoy2800?style=social)](https://github.com/Dannysoy2800)
-[![GitHub stars](https://img.shields.io/github/stars/Dannysoy2800?style=social)](https://github.com/Dannysoy2800)
+मैं Python, JavaScript, LLMs और LangGraph की मदद से ऐसे intelligent systems बनाता हूँ जो complex workflows को आसान और उपयोगी बनाते हैं।
 
-## 🚀 About Me
+[![GitHub followers](https://img.shields.io/github/followers/Dannysoy2800?style=for-the-badge&logo=github)](https://github.com/Dannysoy2800)
+[![Profile views](https://komarev.com/ghpvc/?username=Dannysoy2800&style=for-the-badge)](https://github.com/Dannysoy2800)
 
-I'm passionate about building **AI-powered automation systems** and creating intelligent solutions that enhance productivity. Currently focused on developing personal AI operating systems and intelligent agents.
+## 🚀 मेरे बारे में
 
-- 🤖 **Specializing in**: AI Agents, Automation Systems, LLM Integration
-- 💻 **Languages**: Python, JavaScript, Node.js
-- 🎯 **Focus**: Personal AI, Workflow Automation, Dashboard Analytics
-- 🌱 **Learning**: LangGraph, Advanced AI Orchestration, Cloud Deployment
-- 🔒 **Security**: 2FA Enabled, Security-First Development
+- 🤖 AI agents और workflow automation पर काम कर रहा हूँ
+- 🧠 LangGraph और LLM integrations सीख रहा हूँ
+- 📊 Data-driven dashboards और practical AI solutions बना रहा हूँ
+- 🔐 Security-first development और 2FA को महत्व देता हूँ
+- 🌱 लगातार नई technologies और बेहतर engineering practices सीख रहा हूँ
 
-## 📈 GitHub Stats
+## ⭐ Featured Project
 
-<div align="center">
+### [danny-ai-os](https://github.com/Dannysoy2800/danny-ai-os)
 
-![Danny's GitHub stats](https://github-readme-stats.vercel.app/api?username=Dannysoy2800&show_icons=true&theme=radical)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Dannysoy2800&layout=compact&theme=radical)
-
-</div>
-
-## 🚀 Featured Projects
-
-### 🤖 AI & Automation
-- **[danny-ai-os](https://github.com/Dannysoy2800/danny-ai-os)** - Personal AI Operating System with Python & LangGraph
-- **[my-ai-agent](https://github.com/Dannysoy2800/my-ai-agent)** - Intelligent AI Agent built with JavaScript
-- **[danny-ai-team](https://github.com/Dannysoy2800/danny-ai-team)** - Multi-Agent AI Team System (Private)
-
-### 📊 Analytics & Dashboards  
-- **[kilo-dashboard](https://github.com/Dannysoy2800/kilo-dashboard)** - Advanced Analytics Dashboard with AI Insights
-
-### 📄 Profile & Configuration
-- **[Dannysoy2800](https://github.com/Dannysoy2800/Dannysoy2800)** - This profile repository with configs
+Python और LangGraph पर आधारित personal AI operating system, जिसका उद्देश्य intelligent automation और AI-powered workflows को सरल बनाना है।
 
 ## 🛠️ Tech Stack
 
 ### Languages
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 
-### AI & ML
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
-
-### Tools & Platforms
+### AI/ML & Tools
+![OpenAI](https://img.shields.io/badge/LLM_Integration-412991?style=for-the-badge&logo=openai&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=for-the-badge&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
 
-## 📊 Activity Overview
+## 🎯 वर्तमान फोकस
 
-```text
-🏆 Total Repositories: 5 (4 Public, 1 Private)
-📝 Total Commits: Contributing daily to AI projects
-⭐ GitHub Stars: Building quality open-source projects
-🔄 Active Projects: AI OS, Agents, Dashboard Analytics
-```
+- Intelligent AI agents
+- Workflow automation
+- LLM-based applications
+- Dashboard analytics
+- Reliable and secure AI systems
 
-## 🌱 Current Focus
+## 🤝 संपर्क और सहयोग
 
-- 🤖 **AI Agent Development** - Building sophisticated automation agents
-- 📊 **Dashboard Analytics** - Real-time monitoring and insights
-- 🔄 **Workflow Automation** - Streamlining development processes
-- 🌐 **LLM Integration** - Advanced language model implementations
+अगर आप AI/ML, automation या developer tools पर काम कर रहे हैं, तो GitHub पर connect करें:
 
-## 💫 Fun Facts
-
-- 🛑️ I believe AI should enhance human creativity, not replace it
-- 🚀 Always experimenting with the latest AI frameworks
-- 🔒 Security-first approach in all projects (2FA enabled!)
-- 🌱 Continuous learner in the rapidly evolving AI space
-
-## 📬 Let's Connect
-
-- 💻 **Portfolio**: [GitHub Profile](https://github.com/Dannysoy2800)
-- 🐦 **Projects**: Check out my repositories below!
-- ⭐ **Collaborate**: Open to AI/ML collaboration opportunities
+- **GitHub:** [@Dannysoy2800](https://github.com/Dannysoy2800)
+- **Repositories:** [मेरे projects देखें](https://github.com/Dannysoy2800?tab=repositories)
 
 ---
 
 <div align="center">
 
-**“Building intelligent systems that make life easier, one commit at a time”** 🤖✨
-
-![Profile Trophy](https://github-profile-trophy.vercel.app/?username=Dannysoy2800&theme=radical&no-frame=true&no-bg=true)
+**Intelligent systems बनाते हुए, एक commit at a time 🚀**
 
 </div>
