@@ -130,6 +130,21 @@ def test_openai_responses_agent_blocks_unapproved_model_write(tmp_path):
     assert "requires a prior approval_id" in client.tool_output
 
 
+def test_openai_responses_agent_reports_exhausted_tool_rounds(tmp_path):
+    memory = SQLiteMemory(tmp_path / "memory.sqlite3")
+    tools = build_default_registry(tmp_path, memory)
+    client = _RepeatedToolClient()
+    agent = OpenAIResponsesAgent(
+        model="test-model", memory=memory, tools=tools, client=client, max_tool_rounds=1
+    )
+
+    answer = agent.respond("c1", "remember my name", "system")
+
+    assert answer == "Tool-use limit reached before the model produced a final answer."
+    assert client.calls == 2
+    assert memory.get_messages("c1")[-1].content == answer
+
+
 class _FakeClient:
     def __init__(self):
         self.responses = self
@@ -177,3 +192,24 @@ class _FakeWriteClient:
             )
         self.tool_output = kwargs["input"][0]["output"]
         return SimpleNamespace(id="resp_2", output_text="Write blocked.", output=[])
+
+
+class _RepeatedToolClient:
+    def __init__(self):
+        self.responses = self
+        self.calls = 0
+
+    def create(self, **kwargs):
+        self.calls += 1
+        return SimpleNamespace(
+            id=f"resp_{self.calls}",
+            output_text="",
+            output=[
+                SimpleNamespace(
+                    type="function_call",
+                    call_id=f"call_{self.calls}",
+                    name="remember",
+                    arguments='{"namespace":"profile","key":"name","value":"Ada"}',
+                )
+            ],
+        )

@@ -63,7 +63,10 @@ class OpenAIResponsesAgent:
                 )
             response = self._create_response(response_input, previous_response_id=response.id)
 
-        assistant_text = _response_text(response)
+        if _extract_tool_calls(response):
+            assistant_text = "Tool-use limit reached before the model produced a final answer."
+        else:
+            assistant_text = _response_text(response)
         self.memory.add_message(conversation_id, "assistant", assistant_text)
         return assistant_text
 
