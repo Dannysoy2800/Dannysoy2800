@@ -14,6 +14,9 @@ dependencies = [
   "duckduckgo-search>=6.3.0",
 ]
 
+[tool.setuptools.packages.find]
+include = ["personal_ai_os*"]
+
 [project.scripts]
 personal-ai-os = "personal_ai_os.cli:main"
 
