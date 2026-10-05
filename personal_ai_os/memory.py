@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -13,6 +14,27 @@ class Message:
     role: str
     content: str
     created_at: str
+
+
+_SECRET_PATTERNS = (
+    re.compile(r"(?i)\b(authorization\s*:\s*bearer\s+)[^\s,;]+"),
+    re.compile(r"(?i)\b(bearer\s+)[^\s,;]+"),
+    re.compile(r"(?i)\b(api[_-]?key|access[_-]?token|auth[_-]?token|secret|password|passwd|client[_-]?secret)\s*[:=]\s*(['\"]?)[^\s'\";,]+\2"),
+    re.compile(r"\b(?:sk|rk|pk)-[A-Za-z0-9_-]{16,}\b"),
+    re.compile(r"\b(?:ghp|gho|ghs|ghr|github_pat)_[A-Za-z0-9_]{20,}\b"),
+    re.compile(r"\bAIza[0-9A-Za-z_-]{20,}\b"),
+    re.compile(r"\b(?:xoxb|xoxp|xoxa|xoxr)-[A-Za-z0-9-]{20,}\b"),
+    re.compile(r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"),
+    re.compile(r"\beyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b"),
+)
+
+
+def redact_sensitive(text: str) -> str:
+    """Remove common credential/token forms before text reaches persistent memory."""
+    redacted = text
+    for pattern in _SECRET_PATTERNS:
+        redacted = pattern.sub(lambda match: match.group(1) + "[REDACTED]" if match.lastindex else "[REDACTED]", redacted)
+    return redacted
 
 
 class SQLiteMemory:
@@ -74,7 +96,7 @@ class SQLiteMemory:
         with self._connect() as conn:
             conn.execute(
                 "INSERT INTO messages(conversation_id, role, content, created_at) VALUES (?, ?, ?, ?)",
-                (conversation_id, role, content, _now()),
+                (conversation_id, role, redact_sensitive(content), _now()),
             )
 
     def get_messages(self, conversation_id: str, limit: int = 20) -> list[Message]:
@@ -100,7 +122,7 @@ class SQLiteMemory:
                 VALUES (?, ?, ?, ?, ?)
                 ON CONFLICT(namespace, key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
                 """,
-                (namespace, key, value, now, now),
+                (namespace, redact_sensitive(key), redact_sensitive(value), now, now),
             )
 
     def recall(self, namespace: str, query: str = "", limit: int = 10) -> list[str]:
