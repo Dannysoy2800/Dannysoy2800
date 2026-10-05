@@ -10,6 +10,7 @@ from personal_ai_os.agents import CodingAgent, ManagerAgent, ResearchAgent, Revi
 from personal_ai_os.config import load_settings
 from personal_ai_os.core.formatting import render_results
 from personal_ai_os.logging_config import configure_logging
+from personal_ai_os.organizer import FileOrganizer, render_organization_report
 from personal_ai_os.runtime import DEFAULT_SYSTEM_PROMPT, build_agent
 
 
@@ -27,6 +28,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     chat = subparsers.add_parser("chat", help="Start interactive chat mode.")
     chat.add_argument("--new", action="store_true", help="Start a fresh conversation id.")
+
+    organize = subparsers.add_parser("organize", help="Suggest safe file organization, or apply it explicitly.")
+    organize.add_argument("path", help="Directory containing files to organize.")
+    organize.add_argument("--apply", action="store_true", help="Move the files after showing the deterministic plan.")
 
     for command, help_text in {
         "run": "Run the local manager-led workflow without calling an API.",
@@ -58,6 +63,17 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "chat":
         conversation_id = str(uuid4()) if args.new else args.conversation
         return _interactive_chat(conversation_id, settings)
+
+    if args.command == "organize":
+        organizer = FileOrganizer()
+        try:
+            suggestions = organizer.suggest(args.path)
+            if args.apply:
+                organizer.apply(suggestions)
+        except (OSError, ValueError) as exc:
+            parser.error(str(exc))
+        print(render_organization_report(suggestions, applied=args.apply))
+        return 0
 
     task = " ".join(args.task)
     if args.command == "run":
