@@ -1,58 +1,76 @@
-# नमस्ते, मैं Danny Soy 👋
+# 👋 Hi, I'm Danny Soy
 
-> **AI/ML Developer | Intelligent Agents | Automation | Dashboards**
+> **AI Systems Builder | Intelligent Agents | Automation | Developer Tools**
 
-मैं Python, JavaScript, LLMs और LangGraph की मदद से ऐसे intelligent systems बनाता हूँ जो complex workflows को आसान और उपयोगी बनाते हैं।
+I build practical AI systems that turn complex workflows into useful, repeatable tools.
+
+My current focus is **AI agents, LLM applications, workflow automation, and reliable developer tooling**.
 
 [![GitHub followers](https://img.shields.io/github/followers/Dannysoy2800?style=for-the-badge&logo=github)](https://github.com/Dannysoy2800)
 [![Profile views](https://komarev.com/ghpvc/?username=Dannysoy2800&style=for-the-badge)](https://github.com/Dannysoy2800)
 
-## 🚀 मेरे बारे में
+## 🚀 What I Build
 
-- 🤖 AI agents और workflow automation पर काम कर रहा हूँ
-- 🧠 LangGraph और LLM integrations सीख रहा हूँ
-- 📊 Data-driven dashboards और practical AI solutions बना रहा हूँ
-- 🔐 Security-first development और 2FA को महत्व देता हूँ
-- 🌱 लगातार नई technologies और बेहतर engineering practices सीख रहा हूँ
+- 🤖 **AI Agents** — agentic workflows and intelligent automation
+- 🧠 **LLM Applications** — practical AI-powered tools and systems
+- ⚙️ **Automation** — reducing repetitive work through software
+- 📊 **Developer Tools & Dashboards** — useful interfaces for real-world workflows
+- 🔐 **Reliable AI Systems** — security, maintainability, and failure-aware design
 
 ## ⭐ Featured Project
 
-### [danny-ai-os](https://github.com/Dannysoy2800/danny-ai-os)
+### 🧠 [danny-ai-os](https://github.com/Dannysoy2800/danny-ai-os)
 
-Python और LangGraph पर आधारित personal AI operating system, जिसका उद्देश्य intelligent automation और AI-powered workflows को सरल बनाना है।
+A Python-based personal AI operating system focused on intelligent automation and AI-powered workflows.
 
-## 🛠️ Tech Stack
+**Focus:** Python • LangGraph • LLMs • Agentic Workflows • Automation
 
-### Languages
+## 🛠️ Technology
+
+**Languages & Runtime**
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 
-### AI/ML & Tools
-![OpenAI](https://img.shields.io/badge/LLM_Integration-412991?style=for-the-badge&logo=openai&logoColor=white)
-![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=for-the-badge&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+**AI & Engineering**
+
+![LangGraph](https://img.shields.io/badge/LangGraph-1C3C3C?style=for-the-badge)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
-## 🎯 वर्तमान फोकस
+## 🎯 Current Focus
 
-- Intelligent AI agents
-- Workflow automation
-- LLM-based applications
-- Dashboard analytics
-- Reliable and secure AI systems
+- Autonomous and semi-autonomous AI agents
+- LLM-powered applications
+- Workflow orchestration and automation
+- AI developer tools
+- Reliable, maintainable self-hosted systems
 
-## 🤝 संपर्क और सहयोग
+## 📌 How I Work
 
-अगर आप AI/ML, automation या developer tools पर काम कर रहे हैं, तो GitHub पर connect करें:
+**Explore → Build → Test → Improve → Document**
 
-- **GitHub:** [@Dannysoy2800](https://github.com/Dannysoy2800)
-- **Repositories:** [मेरे projects देखें](https://github.com/Dannysoy2800?tab=repositories)
+I prefer practical projects, iterative development, and systems that solve real problems.
+
+## 🤝 Open Source & Collaboration
+
+I'm interested in collaborating on:
+
+- AI agents and agent frameworks
+- Automation tools
+- LLM applications
+- Developer productivity
+- Open-source AI infrastructure
+
+**GitHub:** [@Dannysoy2800](https://github.com/Dannysoy2800)
+
+**Projects:** [Explore my repositories →](https://github.com/Dannysoy2800?tab=repositories)
 
 ---
 
 <div align="center">
 
-**Intelligent systems बनाते हुए, एक commit at a time 🚀**
+### Building intelligent systems, one commit at a time. 🚀
 
 </div>
