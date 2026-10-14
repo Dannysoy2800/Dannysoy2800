@@ -18,12 +18,43 @@ def test_sqlite_memory_persists_messages_and_memories(tmp_path):
     assert memory.recall("profile", "Ada") == ["name: Ada"]
 
 
+def test_sqlite_memory_redacts_common_secrets_before_persistence(tmp_path):
+    memory = SQLiteMemory(tmp_path / "memory.sqlite3")
+    secret = "sk-1234567890abcdef1234567890"
+    memory.add_message("c1", "user", f"my api_key={secret}")
+    memory.remember("profile", "api_key", secret)
+
+    message = memory.get_messages("c1")[0].content
+    recalled = memory.recall("profile")
+
+    assert secret not in message
+    assert "[REDACTED]" in message
+    assert secret not in recalled[0]
+    assert "[REDACTED]" in recalled[0]
+
+
 def test_file_tools_read_files_are_workspace_scoped(tmp_path):
     (tmp_path / "note.txt").write_text("hello", encoding="utf-8")
     memory = SQLiteMemory(tmp_path / "memory.sqlite3")
     tools = build_default_registry(tmp_path, memory)
 
     assert tools.call("read_file", {"path": "note.txt"}) == "hello"
+
+
+def test_file_tools_block_sensitive_files(tmp_path):
+    (tmp_path / ".env").write_text("API_KEY=secret", encoding="utf-8")
+    (tmp_path / "private.pem").write_text("PRIVATE KEY", encoding="utf-8")
+    (tmp_path / "memory.sqlite3").write_text("not a real db", encoding="utf-8")
+    files = FileTools(tmp_path)
+
+    for path in (".env", "private.pem", "memory.sqlite3"):
+        with pytest.raises(PermissionError, match="sensitive files"):
+            files.read_file(path)
+
+    listing = files.list_files()
+    assert ".env" not in listing
+    assert "private.pem" not in listing
+    assert "memory.sqlite3" not in listing
 
 
 def test_default_tool_schemas_match_openai_responses_function_tool_shape(tmp_path):
