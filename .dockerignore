@@ -1,0 +1,13 @@
+# Keep local credentials and developer artifacts out of Docker build context.
+.env
+.env.*
+!.env.example
+.git
+.github
+.venv
+venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.mypy_cache
+.ruff_cache

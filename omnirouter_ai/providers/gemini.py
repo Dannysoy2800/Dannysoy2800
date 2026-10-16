@@ -48,13 +48,16 @@ class GeminiProvider(AIProvider):
         if request.max_tokens is not None:
             payload["generationConfig"]["maxOutputTokens"] = request.max_tokens  # type: ignore[index]
 
-        async with httpx.AsyncClient(timeout=self.settings.request_timeout_seconds) as client:
-            response = await client.post(endpoint, json=payload, params=params)
+        try:
+            async with httpx.AsyncClient(timeout=self.settings.request_timeout_seconds) as client:
+                response = await client.post(endpoint, json=payload, params=params)
+                response.raise_for_status()
+                data = response.json()
+        except httpx.HTTPStatusError as exc:
+            raise ProviderError(f"Gemini request failed with HTTP {exc.response.status_code}.") from exc
+        except (httpx.RequestError, ValueError) as exc:
+            raise ProviderError(f"Gemini transport or response parsing failed ({type(exc).__name__}).") from exc
 
-        if response.status_code >= 400:
-            raise ProviderError(f"Gemini request failed with HTTP {response.status_code}.")
-
-        data = response.json()
         try:
             content = data["candidates"][0]["content"]["parts"][0]["text"]
         except (KeyError, IndexError, TypeError) as exc:

@@ -2,6 +2,8 @@
 
 from collections.abc import Iterable
 
+import httpx
+
 from omnirouter_ai.providers.base import AIProvider, ProviderError
 from omnirouter_ai.schemas import ChatRequest, ChatResponse
 
@@ -44,8 +46,10 @@ class AIRouter:
 
             try:
                 response = await provider.chat(request)
-            except ProviderError as exc:
-                errors.append(f"{provider_name}: {exc}")
+            except (ProviderError, httpx.RequestError, ValueError) as exc:
+                # Normalize upstream transport and malformed-JSON failures so
+                # the next configured provider can be attempted.
+                errors.append(f"{provider_name}: {type(exc).__name__}: {exc}")
                 attempts.append(provider_name)
                 continue
 

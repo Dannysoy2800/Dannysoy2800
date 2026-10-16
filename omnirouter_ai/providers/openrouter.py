@@ -39,13 +39,16 @@ class OpenRouterProvider(AIProvider):
         if self.settings.openrouter_app_name:
             headers["X-Title"] = self.settings.openrouter_app_name
 
-        async with httpx.AsyncClient(timeout=self.settings.request_timeout_seconds) as client:
-            response = await client.post(self.endpoint, json=payload, headers=headers)
+        try:
+            async with httpx.AsyncClient(timeout=self.settings.request_timeout_seconds) as client:
+                response = await client.post(self.endpoint, json=payload, headers=headers)
+                response.raise_for_status()
+                data = response.json()
+        except httpx.HTTPStatusError as exc:
+            raise ProviderError(f"OpenRouter request failed with HTTP {exc.response.status_code}.") from exc
+        except (httpx.RequestError, ValueError) as exc:
+            raise ProviderError(f"OpenRouter transport or response parsing failed ({type(exc).__name__}).") from exc
 
-        if response.status_code >= 400:
-            raise ProviderError(f"OpenRouter request failed with HTTP {response.status_code}.")
-
-        data = response.json()
         try:
             content = data["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as exc:

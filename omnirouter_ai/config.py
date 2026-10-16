@@ -14,10 +14,10 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
 
     gemini_api_key: str | None = None
-    gemini_model: str = "gemini-1.5-flash"
+    gemini_model: str = "gemini-3.8-flash"
 
     groq_api_key: str | None = None
-    groq_model: str = "llama-3.1-8b-instant"
+    groq_model: str = "openai/gpt-oss-20b"
 
     openrouter_api_key: str | None = None
     openrouter_model: str = "openai/gpt-4o-mini"
@@ -34,6 +34,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         env_prefix="OMNI_",
         case_sensitive=False,
+        extra="ignore",
     )
 
 

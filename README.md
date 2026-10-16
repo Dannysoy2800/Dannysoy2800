@@ -1,6 +1,6 @@
 # OmniRouter AI
 
-OmniRouter AI is a production-ready FastAPI starter for routing chat requests across multiple AI providers. It starts with Gemini, Groq, and OpenRouter support and includes automatic fallback when a provider is unavailable, unconfigured, or returns an upstream error.
+OmniRouter AI is a FastAPI starter for routing chat requests across multiple AI providers. It supports Gemini, Groq, and OpenRouter with automatic fallback when a provider is unavailable, unconfigured, or returns an upstream error.
 
 ## Features
 
@@ -23,6 +23,7 @@ OmniRouter AI is a production-ready FastAPI starter for routing chat requests ac
 │   └── providers/              # Gemini, Groq, and OpenRouter adapters
 ├── tests/                      # Automated tests
 ├── .env.example                # Safe configuration template
+├── .dockerignore               # Excludes local secrets from Docker builds
 ├── Dockerfile                  # Container image definition
 ├── docker-compose.yml          # Local container orchestration
 ├── railway.json                # Railway deployment configuration
@@ -59,9 +60,9 @@ Add API keys for the providers you want to enable. At least one provider key is 
 | --- | --- | --- |
 | `OMNI_PROVIDER_ORDER` | Fallback order used by the router. | `["gemini","groq","openrouter"]` |
 | `OMNI_GEMINI_API_KEY` | Enables Gemini routing. | Not set |
-| `OMNI_GEMINI_MODEL` | Gemini model name. | `gemini-1.5-flash` |
+| `OMNI_GEMINI_MODEL` | Gemini model name. | `gemini-3.8-flash` |
 | `OMNI_GROQ_API_KEY` | Enables Groq routing. | Not set |
-| `OMNI_GROQ_MODEL` | Groq model name. | `llama-3.1-8b-instant` |
+| `OMNI_GROQ_MODEL` | Groq model name. | `openai/gpt-oss-20b` |
 | `OMNI_OPENROUTER_API_KEY` | Enables OpenRouter routing. | Not set |
 | `OMNI_OPENROUTER_MODEL` | OpenRouter model identifier. | `openai/gpt-4o-mini` |
 | `OMNI_REQUEST_TIMEOUT_SECONDS` | Upstream HTTP timeout. | `30` |
@@ -127,6 +128,7 @@ python -m pytest
 
 ## Security notes
 
+- `.dockerignore` excludes local `.env` files and development artifacts from Docker build context.
 - Keep real API keys in `.env`, Railway variables, or another secret manager.
 - Do not commit credentials, private keys, or provider secrets.
 - Configure only providers you intend to use.

@@ -2,22 +2,33 @@
 
 import asyncio
 
+import httpx
+
 from omnirouter_ai.providers.base import AIProvider, ProviderError
 from omnirouter_ai.router import AIRouter
 from omnirouter_ai.schemas import ChatRequest, ChatResponse
 
 
 class FakeProvider(AIProvider):
-    def __init__(self, name: str, configured: bool = True, fail: bool = False) -> None:
+    def __init__(
+        self,
+        name: str,
+        configured: bool = True,
+        fail: bool = False,
+        transport_fail: bool = False,
+    ) -> None:
         self.name = name
         self.configured = configured
         self.fail = fail
+        self.transport_fail = transport_fail
 
     @property
     def is_configured(self) -> bool:
         return self.configured
 
     async def chat(self, request: ChatRequest) -> ChatResponse:
+        if self.transport_fail:
+            raise httpx.ConnectError("connection refused")
         if self.fail:
             raise ProviderError("temporary failure")
         return ChatResponse(provider=self.name, model=request.model or "fake", content="ok")
@@ -35,6 +46,25 @@ def test_router_falls_back_to_next_configured_provider() -> None:
 
         assert response.provider == "second"
         assert response.content == "ok"
+        assert response.fallback_attempts == ["first"]
+
+    asyncio.run(run())
+
+
+def test_router_falls_back_after_transport_failure() -> None:
+    async def run() -> None:
+        router = AIRouter(
+            providers=[
+                FakeProvider("first", transport_fail=True),
+                FakeProvider("second"),
+            ],
+            provider_order=["first", "second"],
+        )
+        request = ChatRequest(messages=[{"role": "user", "content": "hello"}])
+
+        response = await router.chat(request)
+
+        assert response.provider == "second"
         assert response.fallback_attempts == ["first"]
 
     asyncio.run(run())
